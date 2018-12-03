@@ -1,0 +1,65 @@
+.flex-genres{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 100px;
+    font-size: 18px;
+}
+
+.flex-genres .row
+{
+    width: 100%;
+}
+
+.flex-genres li
+{
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+.flex-genres li:hover
+{
+    border-radius: 5px;
+    border: 1px solid none;
+    background-color: #91a5f4;
+    transition: 700ms;
+}
+
+.back{
+    background-color: #ece7e7;
+    font-size: 16px;
+    margin-right: 5px;
+    white-space: nowrap;
+    margin-bottom: 5px;
+}
+
+.back:hover
+{
+    background-color: #c3bdbd;
+    transition: 700ms;
+}
+
+.recent
+{
+    margin-bottom: 8px;
+}
+
+.recent-title
+{
+    float: right;
+    width: 28%;
+    height: 20%;
+    font-size: 26px;
+}
+
+.genres .grid
+{
+    margin-top: -3%;
+}
+
+.black_border
+{
+    border-right: 2px solid #000;
+    border-left: 2px solid #000;
+
+}

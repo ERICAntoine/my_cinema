@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,700');
+
+/* BODY */
+body{
+    font-family: 'Poppins', sans-serif;
+    background: #f4f9fc;
+}
+
+a{
+    color: #000 !important;
+}
+
+
+/* PRINCIPAL NAV*/
+
+.principal-nav
+{
+    display: flex;
+    list-style: none;
+    height: 4em;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.principal-nav li
+{
+    background: #d6b0ff;
+    border: 1px solid #fff;
+    width: 25%;
+    text-align: center;
+    padding-top: 17px;
+    color: #fff;
+}
+
+.principal-nav li:hover
+{
+    background-color: #91a5f4;
+    transition: 500ms
+}
+
+.principal-nav li:nth-child(0n + 1)
+{
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.principal-nav li:nth-child(0n + 4)
+{
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.principal-nav a:hover
+{
+    text-decoration:none;
+    color: #fff; 
+}
+
+.playlist .col img
+{
+    width: 100%;
+    border-radius: 5px;
+}
+
+.nouveaute .col img
+{
+    width: 100%;
+    border-radius: 5px;
+}
+
+.nouveaute .col img:hover{
+    box-shadow: 3px 3px 8px grey;
+    transition: 100ms;
+}
+
+.playlist .col img:hover{
+    box-shadow: 3px 3px 8px grey;
+    transition: 100ms;
+}

@@ -1,0 +1,48 @@
+/* HEADER */
+
+.header{
+    height: 4rem;
+}
+.header .row{ 
+    margin-left: 0%;
+    margin-right: 0%;
+}
+.header img
+{
+    height: 27px;
+    margin-right: 18px;
+}
+
+header ul{
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.row-header
+{
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+header li{
+    list-style: none;
+    margin-right: 5px;
+}
+
+.user {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.user a{
+    color: #000;
+}
+
+.nav-home ul li
+{
+    margin-right: 10px;
+}
