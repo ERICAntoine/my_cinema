@@ -1,6 +1,4 @@
 <?php
-    session_start();
-
     $server = "localhost";
     $dbname= "wac_exam";
     $username = "eric";
@@ -8,7 +6,7 @@
 
     try{
         $db_connect = new PDO("mysql:host=$server; dbname=$dbname", $username, $password);
-        echo "Success";
+        //echo "Success";
     }
     catch (PDOException $error)
     {

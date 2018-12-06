@@ -89,3 +89,16 @@ input{
     left: 0;
     position: fixed;
 }
+
+.client .form-control
+{
+    width: 115px;
+}
+
+.formClient
+{
+    margin-top: 5px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 10px;
+}
