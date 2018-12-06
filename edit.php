@@ -1,13 +1,4 @@
-<?php
-    include("fonction/connect.php");
-    $id = $_GET["id"];
 
-    $query = $db_connect -> prepare("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE fiche_personne.id_perso = $id");
-    $query -> execute();
-    $array = $query->fetch(PDO::FETCH_ASSOC);
-
-    var_dump($array);
-?>
 
 <html>
     <head>
@@ -30,15 +21,47 @@
                                 <img src="images/play-button.svg">
                                 StudioLabs
                             </div>
-                            <form method="get" name="form" action="">
+                            <?php
+                                include("fonction/connect.php");
+                                include("fonction/select.php");
+                                $id = $_GET["id"];
+
+                                $query = $db_connect -> prepare("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE fiche_personne.id_perso = $id");
+                                $query -> execute();
+                                //$array = $query->fetch(PDO::FETCH_ASSOC);
+                                // /var_dump($array);
+                                echo "<form method='post'name='form' action='./edit.php?id=". $_GET["id"] ."'". ">";
+                                echo "<div class='all_info'>"; 
+                                while($array = $query->fetch(PDO::FETCH_ASSOC))
+                                {
+                                    echo "<div class='nom list'>Nom: " .$array['nom'] . "</div>";
+                                    echo "<div class='prenom list'>Prenom: " .$array['prenom'] . "</div>";
+                                    echo "<div class='abo list'>Abonnement: " .$array['id_abo'] . $res = createSelect("SELECT id_abo, nom FROM abonnement", "select","id_abo"). "<button type='button' class='btn btn-danger'>Danger</button>" . "</div>";
+                                    echo "<div class='email list'>Email: " .$array['email'] . "</div>";
+                                    echo "<div class='list cp'>Adress: " . $array['ville'] . " " .  $array['cpostal'] . "</div>";
+                                    echo "<input type='checkbox' value='valueofcheckbox' name='check' checked='checked' style='position:absolute;'";
+                                }
+                                echo "</div>";
+
+                                var_dump($_POST);
+
+                                if($_POST["select"] != "All")
+                                {
+                                    $select = $_POST["select"];
+                                    $query2 = $db_connect -> prepare("UPDATE membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso SET id_abo = $select WHERE membre.id_fiche_perso = $id");
+                                    $query2 -> execute();
+                                }
+
+                            ?>
                                 <a href="cinema.php">Search Cinema</a>
-                                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Search</button>
+                                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Confirm</button>
                             </form>
                         </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>    
+        </section>
+        <script src="js/script.js"></script>
     </body>
 </html>

@@ -53,7 +53,7 @@
 
         while ($array = $query->fetch(PDO::FETCH_ASSOC))
         {
-            echo "<form method='post' action='./edit.php/?id=" . $array['id_perso'] . "class='formClient'>";
+            echo "<form method='post' action='./edit.php?id=". $array['id_perso'] ."'" . " class='formClient'>";
             echo "<div class = 'client'>";
             echo "<div class='search'>" .  "<strong>Nom: </strong>". $array["nom"] . "</div>";
             echo "<div class='search'>" . "<strong>Prenom:</strong> " . $array["prenom"] . "</div>";
@@ -78,9 +78,9 @@
 
         for($i  = 0; $i < count($array2); $i++)
         {
-            echo "<form method='post' action='./edit.php/?id=" . $array['id_perso'] . "class='formClient'>";
+            echo "<form method='post' action='./edit.php?id=". $array['id_perso'] . " class='formClient'>";
             echo "<div class = 'client'>";
-            echo "<div class='search'>" .  "<strong>Nom: </strong>". $array2[$i]["nom"] . "</div>";
+            echo "<div class='search'>" .  "<strong>Nom: </strong>". $array2[$i]["nom"] ."'" .  "</div>";
             echo "<div class='search'>" . "<strong>Prenom:</strong> " . $array2[$i]["prenom"] . "</div>";
             echo "<div class='search'>" . "<strong id='abo'>Abonnement: </strong> " . $array2[$i]["id_abo"] .  $res = createSelect("SELECT nom FROM abonnement", "select") . "</div>";
             echo "<div class='search'>" . "<input id='abo' type= 'hidden' value = " . $array['id_abo'] . ">".  "</div>";
