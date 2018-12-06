@@ -2,7 +2,7 @@
 
     include("connect.php");
 
-    function createSelect($resquest, $name , $id)
+    function createSelect($resquest, $name , $id, $idSelect = "sel1")
     {
             global $db_connect;
 
@@ -12,7 +12,7 @@
             $doc = new DOMDocument;
             $select = $doc -> createElement("select");
 
-            echo "<select class='form-control' id='sel1' name=" . $name . " size='1'>";
+            echo "<select class='form-control' id='$idSelect' name=" . $name . " size='1'>";
             echo "<option>All</option>";
             for($i = 0; $i < count($array); $i++)
             {
