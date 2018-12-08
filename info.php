@@ -33,7 +33,7 @@
                                     echo "Prenom: " .$array["prenom"] . "<br/><br/>";
                                 }
 
-                                $selectInfoFilm = $db_connect -> prepare("SELECT membre.id_fiche_perso, historique_membre.id_membre, historique_membre.id_film, film.titre, historique_membre.date, membre.id_dernier_film, membre.date_inscription FROM historique_membre INNER JOIN membre ON historique_membre.id_membre = membre.id_membre INNER JOIN film ON film.id_film = historique_membre.id_film WHERE historique_membre.id_membre = $id");
+                                $selectInfoFilm = $db_connect -> prepare("SELECT membre.id_fiche_perso, historique_membre.id_membre, historique_membre.id_film, film.titre, historique_membre.date, membre.id_dernier_film, membre.date_inscription FROM historique_membre INNER JOIN membre ON historique_membre.id_membre = membre.id_membre INNER JOIN film ON film.id_film = historique_membre.id_film WHERE membre.id_fiche_perso = $id");
                                 $selectInfoFilm -> execute();
                                 $array2 = $selectInfoFilm->fetch(PDO::FETCH_ASSOC);
 
@@ -72,9 +72,9 @@
                                     echo "<label>Nom du film deja existant: </label>";
                                     echo "<input type='text' name='film_name' class='form-control'>";
                                     //echo date("Y-m-d h:i:sa");
-
+                                    //INSERT INTO historique_membre (id_membre, id_film, date) VALUES ("1",(SELECT id_film from film WHERE titre = "Akira"), '2011-12-18 13:17:17')
                                     $fileName = $_POST['film_name'];
-                                    $resquestAddFile = $db_connect->query("INSERT INTO historique_membre (id_membre, id_film, date) VALUES ("1",(SELECT id_film from film WHERE titre = "Akira"), '2011-12-18 13:17:17')")
+                                    //$resquestAddFile = $db_connect->query("INSERT INTO historique_membre (id_membre, id_film, date) VALUES ("1",(SELECT id_film from film WHERE titre = "Akira"), '2011-12-18 13:17:17')");
                                 ?>
                                     <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">ADD</button>
                                 </form>
