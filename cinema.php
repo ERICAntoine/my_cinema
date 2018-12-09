@@ -28,15 +28,20 @@
                                         <div name = "select" class="form-label-group">
                                             <label>Search Genre :</label>
                                            <?php include("fonction/select.php"); 
-                                               createSelect("SELECT id_genre, nom FROM genre", "genre", "id_genre");
+                                               createSelect("SELECT id_genre, nom FROM genre", "genre", "id_genre", "selectID", "id_genre");
                                            ?>
                                         </div>
                                         <div class="form-label-group">
                                             <label>Search Distributeur :</label>
                                             <?php
-                                               createSelect("SELECT id_distrib, nom FROM distrib", "distrib", "id_genre");
+                                               createSelect("SELECT id_distrib, nom FROM distrib", "distrib", "id_distrib", "selectDistrib", "id_distrib");
                                            ?>
                                            <br/>
+                                        </div>
+                                        <div class="form-label-group" id= "dateClass">
+                                            <label>Search Movies by date:</label>
+                                            <input type="date" name="date_bar" id='date' class="form-control"></input>
+                                        </div>
                                            <a href="client.php">Search Client</a>
                                         <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Search</button>
                                     </form>
@@ -45,7 +50,8 @@
                         </div>
                     </div>
                 </div>
-            </section>    
+            </section>
+        <script src="js/cinema.js"></script>
     </body>
 </html>
 
@@ -74,7 +80,8 @@
             {
                 echo "<div class='search'>";
                 echo "<strong>Titre : </strong>" .$array[$i]["titre"] . "<br/>";
-                echo "<strong>Genre : </strong>" . $array[$i]["id_genre"] . "<br/>";
+                echo "<strong>Genre : </strong>" . '<span class="genre_id">'. $array[$i]["id_genre"] .'</span>' .  "<br/>";
+                echo "<strong>Distributeur: </strong>" .'<span class="distrib_id">'. $array[$i]["id_distrib"] .'</span>' . "<br/>";
                 echo "<strong>Annee de Production : </strong>" . $array[$i]["annee_prod"] . "<br/>";
                 echo "<strong> Duree en Minutes : </strong>" . $array[$i]["duree_min"] . " min<br/>";
                 echo "<strong>Resum : </strong>" . $array[$i]["resum"] . "<br/>";
@@ -84,21 +91,35 @@
         }
     }
 
-    function fetchPerso($resquest)
-    {
+    var_dump($_GET);
+    var_dump($_POST);
+    
+    $genre = $_GET["genre"];
 
-    }
-  
-    if($_GET["genre"] != "All" && !empty($_GET["search_bar"]))
+    if(isset($_GET["search_bar"]))
     {
-        echo "hello";
         $search_bar = $_GET["search_bar"];
-        $genre = $_GET["genre"];
-        resquestFetch("SELECT titre, id_genre, resum, annee_prod,duree_min from film WHERE titre LIKE '%". $search_bar ."%' AND id_genre LIKE '%" . $genre . "%'");
+        resquestFetch("SELECT * from film WHERE titre LIKE '%". $search_bar ."%'");
+    }
+    elseif($_GET["genre"] != "All" && !empty($_GET["search_bar"]))
+    {
+        $search_bar = $_GET["search_bar"];
+        resquestFetch("SELECT * from film WHERE titre LIKE '%". $search_bar ."%' AND id_genre LIKE '%" . $genre . "%'");
     }
     elseif($genre != "All")
     {
-        resquestFetch("SELECT titre, id_genre, resum, annee_prod,duree_min from film WHERE id_genre = '" . $genre . "'");
+        resquestFetch("SELECT * from film WHERE id_genre = '" . $genre . "'");
+    }
+
+    if(isset($_GET["date_bar"]))
+    {        
+        $date = $_GET["date_bar"];        
+        resquestFetch("SELECT * FROM film WHERE date_debut_affiche = '$date'");
+    }
+    elseif(isset($_GET["distrib"]))
+    {
+        $distrib = $_GET["distrib"];
+        resquestFetch("SELECT * FROM film WHERE id_distrib = '$distrib'");
     }
 
     //resquestFetch("SELECT titre, id_genre, nom FROM film WHERE titre LIKE '%". $search_bar ."%'");

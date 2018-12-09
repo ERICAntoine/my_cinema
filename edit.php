@@ -66,6 +66,6 @@
                 </div>
             </div>
         </section>
-        <script src="js/script.js"></script>
+        <script src="js/edit.js"></script>
     </body>
 </html>
