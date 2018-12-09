@@ -141,5 +141,25 @@ input{
     width: 540px;
     top: 30%;
     border-radius: 20px;
+}
 
+.all_search
+{
+    justify-content: center;
+    padding: 10px;
+}
+
+.row
+{
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+.search
+{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 15px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }

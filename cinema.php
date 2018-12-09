@@ -35,6 +35,7 @@
                                             <label>Search Distributeur :</label>
                                             <?php
                                                createSelect("SELECT id_distrib, nom FROM distrib", "distrib", "id_distrib", "selectDistrib", "id_distrib");
+                                               
                                            ?>
                                            <br/>
                                         </div>
@@ -75,10 +76,10 @@
 
         if(isset($_GET["search_bar"]))
         {
-            echo "<div class='all_search'>";
+            echo "<div class='all_search row'>";
             for($i = 0; $i < count($array); $i++)
             {
-                echo "<div class='search'>";
+                echo "<div class='search col-sm-4'>";
                 echo "<strong>Titre : </strong>" .$array[$i]["titre"] . "<br/>";
                 echo "<strong>Genre : </strong>" . '<span class="genre_id">'. $array[$i]["id_genre"] .'</span>' .  "<br/>";
                 echo "<strong>Distributeur: </strong>" .'<span class="distrib_id">'. $array[$i]["id_distrib"] .'</span>' . "<br/>";
@@ -90,18 +91,15 @@
             echo "</div>";
         }
     }
-
-    var_dump($_GET);
-    var_dump($_POST);
     
     $genre = $_GET["genre"];
 
-    if(isset($_GET["search_bar"]))
+    /*if(isset($_GET["search_bar"]))
     {
         $search_bar = $_GET["search_bar"];
         resquestFetch("SELECT * from film WHERE titre LIKE '%". $search_bar ."%'");
-    }
-    elseif($_GET["genre"] != "All" && !empty($_GET["search_bar"]))
+    }*/
+    if($_GET["genre"] != "All" && !empty($_GET["search_bar"]))
     {
         $search_bar = $_GET["search_bar"];
         resquestFetch("SELECT * from film WHERE titre LIKE '%". $search_bar ."%' AND id_genre LIKE '%" . $genre . "%'");
@@ -111,16 +109,17 @@
         resquestFetch("SELECT * from film WHERE id_genre = '" . $genre . "'");
     }
 
-    if(isset($_GET["date_bar"]))
+    /*if(isset($_GET["date_bar"]))
     {        
         $date = $_GET["date_bar"];        
         resquestFetch("SELECT * FROM film WHERE date_debut_affiche = '$date'");
     }
-    elseif(isset($_GET["distrib"]))
+    
+    if(isset($_GET["distrib"]))
     {
         $distrib = $_GET["distrib"];
         resquestFetch("SELECT * FROM film WHERE id_distrib = '$distrib'");
-    }
+    }*/
 
     //resquestFetch("SELECT titre, id_genre, nom FROM film WHERE titre LIKE '%". $search_bar ."%'");
     /*$genre = $_GET["genre"];

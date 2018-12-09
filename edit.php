@@ -37,7 +37,7 @@
                                     echo "<div class='abo list'>Abonnement: " .$array['id_abo'] . $res = createSelect("SELECT id_abo, nom FROM abonnement", "select","id_abo", "abonnement"). "<button type='button' id='delete' class='btn btn-danger'>Danger</button>" . "</div>";
                                     echo "<div class='email list'>Email: " .$array['email'] . "</div>";
                                     echo "<div class='list cp'>Adress: " . $array['ville'] . " " .  $array['cpostal'] . "</div>";
-                                    echo "<input type='checkbox' id='hidden' value='valueofcheckbox' name='check' style='position:absolute;'";
+                                    echo "<input type='checkbox' id='hidden' value='valueofcheckbox' name='check' style='position:absolute; opacity:0;'";
                                 }
                                 echo "</div>";
 
