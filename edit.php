@@ -26,8 +26,7 @@
 
                                 $query = $db_connect -> prepare("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE fiche_personne.id_perso = $id");
                                 $query -> execute();
-                                //$array = $query->fetch(PDO::FETCH_ASSOC);
-                                // /var_dump($array);
+
                                 echo "<form method='post'name='form' action='./edit.php?id=". $_GET["id"] ."'". ">";
                                 echo "<div class='all_info'>"; 
                                 while($array = $query->fetch(PDO::FETCH_ASSOC))

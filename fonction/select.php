@@ -2,7 +2,7 @@
 
     include("connect.php");
 
-    function createSelect($resquest, $name , $id, $idSelect = "sel1", $className = 'selectClass')
+    function createSelect($resquest, $name , $id, $idSelect = "sel1", $className = 'selectClass', $selectClass = "selectClass2")
     {
             global $db_connect;
 
@@ -10,7 +10,7 @@
             $query->execute();
             $array = $query->fetchAll(PDO::FETCH_ASSOC);
 
-            echo "<select class='form-control' id='$idSelect' name=" . $name . " size='1'>";
+            echo "<select class='form-control $selectClass' id='$idSelect' name=" . $name . " size='1'>";
             echo "<option>All</option>";
             for($i = 0; $i < count($array); $i++)
             {

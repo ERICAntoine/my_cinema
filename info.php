@@ -103,8 +103,8 @@
 </html>
 
 <?php
-    var_dump($textarea = $_POST["textReview"]);
-    var_dump($id_film = $_POST["nameIdFilm"]);
+    $textarea = $_POST["textReview"];
+    $id_film = $_POST["nameIdFilm"];
     $id = $_GET["id"];
     $reviewUpdate = $db_connect -> query("UPDATE historique_membre INNER JOIN membre ON historique_membre.id_membre = membre.id_membre SET avis = '$textarea' WHERE id_film = '$id_film' AND membre.id_fiche_perso = $id");
 ?>

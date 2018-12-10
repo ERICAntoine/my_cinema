@@ -29,6 +29,10 @@
                                     <label>Search Client FirstName:</label>
                                     <input type="text" name="firstname" class="form-control"></input>
                                 </div>
+                                <div class="form-label-group" id= "dateClass">
+                                    <label>Limit:</label>
+                                    <input type="number" name="limit" id='date' class="form-control"></input>
+                                </div>
                                 <a href="cinema.php">Search Cinema</a>
                                 <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Search</button>
                             </form>
@@ -37,7 +41,8 @@
                     </div>
                 </div>
             </div>
-            </section>    
+        </section>
+        <script src="js/client.js"></script>   
     </body>
 </html>
 
@@ -45,59 +50,83 @@
     include("fonction/connect.php");
     include("fonction/select.php");
 
+    function resquestFetch($resquest, $nbrLimit)
+    {
+        global $db_connect;
+
+        if(isset($_GET["page"]))
+        {
+            $page = $_GET["page"];
+        }
+        else
+        {
+            $page = 1;
+        }
+
+        $query = $db_connect->prepare($resquest. ' limit ' .($page -1)*$nbrLimit ."," . $nbrLimit);
+        $query->execute();
+        $array = $query->fetchAll(PDO::FETCH_ASSOC);
+        $countCol = $db_connect -> query($resquest);
+        $totalMovies = $countCol-> rowCount();
+        $nbrPage = ceil($totalMovies / $nbrLimit);
+        $lastname = $_GET["lastname"];
+        $firstname = $_GET["firstname"];
+
+        if(isset($_GET["page"]))
+        {
+            $page = $_GET["page"];
+        }
+        else
+        {
+            $page = 1;
+        }
+
+        if(isset($_GET["lastname"]))
+        {
+            echo "<div class='all_search row'>";
+            for($i = 0; $i < count($array); $i++)
+            {
+                echo "<div class='search' >";
+                echo "<div class='search_client'>" .  "<strong>Nom: </strong>". $array[$i]["nom"] . "</div>";
+                echo "<div class='search_client'>" . "<strong>Prenom:</strong> " . $array[$i]["prenom"] . "</div>";
+                echo "<div class='search_client'>" . "<strong id='abo'>Abonnement: </strong> " ."<span class='abo_id'>" .$array[$i]["id_abo"] ."</span>" . "</div>";
+                echo "<div class='search_client'>" . "<input id='abo' type = 'hidden' value = " . $array[$i]['id_abo'] . ">".  "</div>";
+                echo "<div class='search_client'>" . "<strong>Email:</strong> " . $array[$i]["email"] . "</div>";
+                echo "<div class='search_client'>" . "<strong>Adresse:</strong> " . $array[$i]["ville"] . " ". $array[$i]["cpostal"] .  "</div>";
+                echo "<a " . "href ='./edit.php?id=". $array[$i]['id_perso'] . "'" .  "value='Edit' class='btn btn-success edit'>Edit</a>";
+                echo "<a " . "href ='./info.php?id=". $array[$i]['id_perso'] . "'" .  "value='Info' class='btn btn-primary'>Info</a><br/>";
+                echo "</div><br/>";
+            } 
+            echo "</div>";
+            echo "<ul class='pagination pagi'>";
+            for($i = 1; $i < $nbrPage; $i++)
+            {
+                echo "<li class='page-item'col-sm-4'><a class='page-link' href='client.php?lastname=$lastname&firstname=$firstname&page=$i'>$i</a></li>";
+            }
+            echo '</ul>';
+        }
+    }
+
+        
+    if(isset($_GET["limit"]) && !empty($_GET["limit"]))
+    {
+        $limit = $_GET["limit"];
+    }
+    else
+    {
+        $limit = 12;
+    }
+
     if(!empty($_GET["lastname"]))
     {
         $lastname = $_GET["lastname"];
-        $query = $db_connect->prepare("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE fiche_personne.nom LIKE '%". $lastname ."%'");
-        $query->execute();
-
-        while ($array = $query->fetch(PDO::FETCH_ASSOC))
-        {
-            echo "<div class = 'client'>";
-            echo "<div class='search'>" .  "<strong>Nom: </strong>". $array["nom"] . "</div>";
-            echo "<div class='search'>" . "<strong>Prenom:</strong> " . $array["prenom"] . "</div>";
-            echo "<div class='search'>" . "<strong id='abo'>Abonnement: </strong> " . $array["id_abo"] . $res = createSelect("SELECT id_abo, nom FROM abonnement", "select","id_abo") .  "</div>";
-            echo "<div class='search'>" . "<input id='abo' type = 'hidden' value = " . $array['id_abo'] . ">".  "</div>";
-            echo "<div class='search'>" . "<strong>Email:</strong> " . $array["email"] . "</div>";
-            echo "<div class='search'>" . "<strong>Adresse:</strong> " . $array["ville"] . " ". $array["cpostal"] .  "</div>";
-            echo "<a " . "href ='./edit.php?id=". $array['id_perso'] . "'" .  "value='Edit' class='btn btn-success'>Edit</a>";
-            echo "<a " . "href ='./info.php?id=". $array['id_perso'] . "'" .  "value='Info' class='btn btn-primary'>Info</a><br/>";
-            echo "</div>";        
-        }
+        resquestFetch("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE fiche_personne.nom LIKE '%". $lastname ."%'", $limit);
     }
 
     if(!empty($_GET["firstname"]))
     {
         $prenom = $_GET["firstname"];
-        $query2 = $db_connect->prepare("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE prenom LIKE '%". $prenom ."%'");
-        $query2->execute();
-
-        while ($array2 = $query2->fetch(PDO::FETCH_ASSOC))
-        {
-            echo "<div class = 'client'>";
-            echo "<div class='search'>" .  "<strong>Nom: </strong>". $array2["nom"] . "</div>";
-            echo "<div class='search'>" . "<strong>Prenom:</strong> " . $array2["prenom"] . "</div>";
-            echo "<div class='search'>" . "<strong id='abo'>Abonnement: </strong> " . $array2["id_abo"] . $res = createSelect("SELECT id_abo, nom FROM abonnement", "select","id_abo") . "</div>";
-            echo "<div class='search'>" . "<input id='abo' type = 'hidden' value = " . $array2['id_abo'] . ">".  "</div>";
-            echo "<div class='search'>" . "<strong>Email:</strong> " . $array2["email"] . "</div>";
-            echo "<div class='search'>" . "<strong>Adresse:</strong> " . $array2["ville"] . " ". $array2["cpostal"] .  "</div>";
-            echo "<a " . "href ='./edit.php?id=". $array2['id_perso'] . "'" .  "value='Edit' class='btn btn-success'>Edit</a>";
-            echo "<a " . "href ='./info.php?id=". $array2['id_perso'] . "'" .  "value='Info' class='btn btn-primary'>Info</a><br/>";
-            echo "</div>";        
-        }
+        resquestFetch("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE prenom LIKE '%". $prenom ."%'", $limit);
     }
 
-
-    /*$prenom = $_GET["firstname"];
-    $first = $db_connect->prepare("SELECT prenom FROM fiche_personne WHERE prenom LIKE '%". $prenom ."%'");
-    $first->execute();
-    $array2 = $prenom -> fetchAll(PDO::FETCH_COLUMN);
-
-    if(isset($_GET["firstname"]))
-    {
-        for($i  = 0; $i < count($array2); $i++)
-        {
-            echo "<div class='search'>$array2[$i]</div><br/>";
-        }
-    }*/
 ?>
