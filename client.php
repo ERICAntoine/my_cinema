@@ -3,6 +3,7 @@
     <head>
         <link href="css/login.css" rel="stylesheet">
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     </head>
     <body>
         <div class="video">
@@ -66,7 +67,8 @@
         $query = $db_connect->prepare($resquest. ' limit ' .($page -1)*$nbrLimit ."," . $nbrLimit);
         $query->execute();
         $array = $query->fetchAll(PDO::FETCH_ASSOC);
-        $countCol = $db_connect -> query($resquest);
+        $countCol = $db_connect -> prepare($resquest);
+        $countCol -> execute();
         $totalMovies = $countCol-> rowCount();
         $nbrPage = ceil($totalMovies / $nbrLimit);
         $lastname = $_GET["lastname"];
@@ -120,13 +122,13 @@
     if(!empty($_GET["lastname"]))
     {
         $lastname = $_GET["lastname"];
-        resquestFetch("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE fiche_personne.nom LIKE '%". $lastname ."%'", $limit);
+        resquestFetch("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE fiche_personne.nom LIKE '". $lastname ."%'", $limit);
     }
 
     if(!empty($_GET["firstname"]))
     {
         $prenom = $_GET["firstname"];
-        resquestFetch("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE prenom LIKE '%". $prenom ."%'", $limit);
+        resquestFetch("SELECT fiche_personne.id_perso, id_membre, id_abo, fiche_personne.nom, fiche_personne.prenom, fiche_personne.email, fiche_personne.ville, fiche_personne.cpostal from membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso WHERE prenom LIKE '". $prenom ."%'", $limit);
     }
 
 ?>

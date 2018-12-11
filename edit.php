@@ -2,6 +2,7 @@
     <head>
     <link href="css/login.css" rel="stylesheet">
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     </head>
     <body>
         <div class="video">
@@ -31,24 +32,25 @@
                                 echo "<div class='all_info'>"; 
                                 while($array = $query->fetch(PDO::FETCH_ASSOC))
                                 {
-                                    echo "<div class='nom list'>Nom: " .$array['nom'] . "</div>";
-                                    echo "<div class='prenom list'>Prenom: " .$array['prenom'] . "</div>";
-                                    echo "<div class='abo list'>Abonnement: " .$array['id_abo'] . $res = createSelect("SELECT id_abo, nom FROM abonnement", "select","id_abo", "abonnement"). "<button type='button' id='delete' class='btn btn-danger'>Danger</button>" . "</div>";
+                                    echo "<div class='nom list'>Lastname: " .$array['nom'] . "</div>";
+                                    echo "<div class='prenom list'>Firstname: " .$array['prenom'] . "</div>";
+                                    echo "<div class='abo list'>Subscription: " .$array['id_abo'] . $res = createSelect("SELECT id_abo, nom FROM abonnement", "select","id_abo", "abonnement"). "<button type='button' id='delete' class='delete_button btn btn-danger'>Delete</button>" . "</div>";
                                     echo "<div class='email list'>Email: " .$array['email'] . "</div>";
                                     echo "<div class='list cp'>Adress: " . $array['ville'] . " " .  $array['cpostal'] . "</div>";
                                     echo "<input type='checkbox' id='hidden' value='valueofcheckbox' name='check' style='position:absolute; opacity:0;'";
                                 }
                                 echo "</div>";
 
-                                //var_dump($_POST);
-
-                                if($_POST["select"] != "All")
+                                if(isset($_POST["select"]) && !empty($_POST["select"]))
                                 {
-                                    $select = $_POST["select"];
-                                    $query2 = $db_connect -> prepare("UPDATE membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso SET id_abo = $select WHERE membre.id_fiche_perso = $id");
-                                    $query2 -> execute();
+                                    if($_POST["select"] != "All")
+                                    {
+                                        $select = $_POST["select"];
+                                        $query2 = $db_connect -> prepare("UPDATE membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso SET id_abo = $select WHERE membre.id_fiche_perso = $id");
+                                        $query2 -> execute();
+                                    }
                                 }
-
+                                
                                 if(isset($_POST["check"]))
                                 {
                                     $check = $_POST["check"];

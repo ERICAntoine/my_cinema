@@ -3,6 +3,7 @@
     <head>
         <link href="css/login.css" rel="stylesheet">
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     </head>
     <body>
         <div class="video">
@@ -79,14 +80,14 @@
         $query = $db_connect->prepare($resquest. ' limit ' .($page -1)*$nbrLimit ."," . $nbrLimit);
         $query->execute();
         $array = $query->fetchAll(PDO::FETCH_ASSOC);
-        $countCol = $db_connect -> query($resquest);
+        $countCol = $db_connect -> prepare($resquest);
+        $countCol -> execute();
         $totalMovies = $countCol-> rowCount();
         $nbrPage = ceil($totalMovies / $nbrLimit);
         $bar = $_GET["search_bar"];
         $genre = $_GET["genre"];
         $distrib = $_GET["distrib"];
         $date_bar = $_GET["date_bar"];
-        echo $totalMovies;
 
         if(isset($_GET["page"]))
         {
@@ -114,7 +115,7 @@
             } 
             echo "</div>";
             echo "<ul class='pagination pagi'>";
-            for($i = 1; $i < $nbrPage; $i++)
+            for($i = 1; $i < $nbrPage + 1; $i++)
             {
                 echo "<li class='page-item'><a class='page-link' href='cinema.php?search_bar=$bar&genre=$genre&distrib=$distrib&date_bar=$date_bar&page=$i'>$i</a></li>";
             }
@@ -143,13 +144,13 @@
     if($genre != "All" && isset($_GET["search_bar"]) && !empty($_GET["search_bar"]))
     {
         $search_bar = $_GET["search_bar"];
-        resquestFetch("SELECT * from film WHERE titre LIKE '%". $search_bar ."%' AND id_genre LIKE '%" . $genre . "%'", $limit);
+        resquestFetch("SELECT * from film WHERE titre LIKE '%". $search_bar ."%' AND id_genre LIKE '" . $genre . "%'", $limit);
     }
     elseif(isset($_GET["search_bar"]) && !empty($_GET['search_bar']))
     {
         $search_bar = $_GET["search_bar"];
         $numberMovie = 10;
-        resquestFetch("SELECT * from film WHERE titre LIKE '%". $search_bar ."%'", $limit);
+        resquestFetch("SELECT * from film WHERE titre LIKE '". $search_bar ."%'", $limit);
     }
     elseif($genre != "All")
     {
@@ -157,8 +158,8 @@
     }
     elseif(isset($_GET["date_bar"]) && !empty($_GET["date_bar"]))
     {
-        $date = $_GET["date_bar"];        
-        resquestFetch("SELECT * FROM film WHERE date_debut_affiche = '$date'", $limit);
+        $date = $_GET["date_bar"];
+        echo resquestFetch("SELECT * FROM film WHERE date_debut_affiche <= '$date' AND date_fin_affiche >= '$date'", $limit);
     }
     elseif(isset($_GET["distrib"]) && !empty($_GET["distrib"]))
     {

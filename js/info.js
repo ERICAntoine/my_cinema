@@ -23,6 +23,7 @@ labelReview.innerText = "Review:";
 lastLabel.parentNode.removeChild(lastLabel);
 textarea.setAttribute("name", "textReview");
 textarea.setAttribute("value", "textReview");
+cardChange.style.display = "none";
 
 for(var i = 0; i < getSpan.length; i++)
 {
@@ -30,9 +31,8 @@ for(var i = 0; i < getSpan.length; i++)
     span.onclick = (e) =>
     {
         overlay.style.display = "block";
-
         cloneCard.classList.add("active");
-        cloneCard.style.position = "absolute";
+        cloneCard.style.position = "fixed";
         cloneCard.style.borderRadius = "20px";
         pageLoginChange.parentNode.insertBefore(cloneCard, pageLoginChange);
         inputHidden.setAttribute("value", span.getAttribute("value"));
@@ -46,6 +46,5 @@ overlay.onclick = (e) =>
     overlay.style.display = "none";
     overlay.innerHTML = "";
     document.body.removeChild(cloneCard);
-    //console.log("caca");
 }
 

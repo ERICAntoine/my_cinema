@@ -3,6 +3,7 @@
         <meta charset="utf-8">
         <link href="css/login.css" rel="stylesheet">
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     </head>
     <body>
         <div class="video">
@@ -59,8 +60,7 @@
 
 
                             ?>
-                                <a href="cinema.php">Search Cinema</a>
-                                <button class="btn btn-lg btn-success btn-block text-uppercase review_change" type="submit">BACK</button>
+                                <a href="client.php" class="btn btn-lg btn-success btn-block text-uppercase review_change" type="submit">BACK</a>
                             </form>
                         </div>
                         </div>
@@ -73,7 +73,6 @@
                         <div class="card card_change">
                             <div class="card-body">
                                 <div class="card-title text-center">
-                                    <!--<img src="images/play-button.svg">-->
                                     StudioLabs
                                 </div>
                                 <?php
@@ -85,10 +84,14 @@
                                     echo "<textarea class='form-control input_change'></textarea>";
                                     echo "<label>Nom du film deja existant: </label>";
                                     echo "<input type='text' name='film_name' class='form-control input_change'>";
-                                    echo $fileName = $_POST['film_name'];
-                                    $id = $_GET['id'];
-                                    $sql = "INSERT INTO historique_membre (id_membre, id_film, date) VALUES ((SELECT id_membre FROM membre WHERE id_fiche_perso = '$id'),(SELECT id_film from film WHERE titre = '$fileName' limit 1), Now())";
-                                    $resquestAddFile = $db_connect->query($sql);
+                                    if(isset($_POST["film_name"]) && !empty($_POST["film_name"]))
+                                    {
+                                        echo $fileName = $_POST['film_name'];
+                                        $id = $_GET['id'];
+                                        $sql = "INSERT INTO historique_membre (id_membre, id_film, date) VALUES ((SELECT id_membre FROM membre WHERE id_fiche_perso = '$id'),(SELECT id_film from film WHERE titre = '$fileName' limit 1), Now())";
+                                        $resquestAddFile = $db_connect-> prepare($sql);
+                                        $resquestAddFile -> execute();
+                                    }
                                 ?>
                                     <button class="btn btn-lg btn-success btn-block text-uppercase review_change" type="submit">ADD</button>
                                 </form>
@@ -103,8 +106,12 @@
 </html>
 
 <?php
-    $textarea = $_POST["textReview"];
-    $id_film = $_POST["nameIdFilm"];
-    $id = $_GET["id"];
-    $reviewUpdate = $db_connect -> query("UPDATE historique_membre INNER JOIN membre ON historique_membre.id_membre = membre.id_membre SET avis = '$textarea' WHERE id_film = '$id_film' AND membre.id_fiche_perso = $id");
+    if(isset($_POST["textReview"]) && !empty($_POST["textReview"]) && isset($_POST["nameIdFilm"]) && !empty($_POST["nameIdFilm"]))
+    {
+        $textarea = $_POST["textReview"];
+        $id_film = $_POST["nameIdFilm"];
+        $id = $_GET["id"];
+        $reviewUpdate = $db_connect -> prepare("UPDATE historique_membre INNER JOIN membre ON historique_membre.id_membre = membre.id_membre SET avis = '$textarea' WHERE id_film = '$id_film' AND membre.id_fiche_perso = $id");
+        $reviewUpdate -> execute();
+    }
 ?>
