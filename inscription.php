@@ -2,17 +2,15 @@
     session_start();
     include("fonction/connect.php");
 
-    if(isset($_GET["pseudo"]) && !empty($_GET["pseudo"]) && isset($_GET["email"]) && !empty($_GET["email"]) && isset($_GET["mdp"]) && !empty($_GET["mdp"]))
+    if(isset($_POST["pseudo"]) && !empty($_POST["pseudo"]) && isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["mdp"]) && !empty($_POST["mdp"]))
     {
-        $pseudo = $_GET["pseudo"];
-        $email = $_GET["email"];
-        $password = $_GET["mdp"];
+        $pseudo = $_POST["pseudo"];
+        $email = $_POST["email"];
+        $password = password_hash($_POST["mdp"], PASSWORD_DEFAULT);
 
-        $addUser = $_db_connect -> prepare("INSERT INTO users (id_users, pseudo, email, password) VALUES (1,$pseudo, $email, $password)");
+        $addUser = $db_connect -> prepare("INSERT INTO users (id_users, pseudo, email, password) VALUES (4,'$pseudo', '$email', '$password')");
         $addUser -> execute();
-        echo "caca";
     }
-
 ?>
 
 <html>
@@ -41,7 +39,7 @@
                                         <img src="images/play-button.svg">
                                         StudioLabs
                                     </div>
-                                    <form method="post" action="cinema.php">
+                                    <form method="post">
                                         <div class="form-label-group">
                                                 <input minlength= "4" maxlength="16" type="text" name="pseudo" id="inputEmail" class="form-control" placeholder="Nom d'utilisateur" required>
                                         </div>

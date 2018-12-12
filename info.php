@@ -54,7 +54,7 @@
 
                                 while($array = $selectInfoFilm->fetch(PDO::FETCH_ASSOC))
                                 {
-                                    echo "<div class='film_vu list'>Film vu: " .$array['titre'] . " le " .$array["date"] .'<span value= ' . $array["id_film"] .' class="badge badge-pill badge-primary review review_change"> Add review </span>'. "</div>";
+                                    echo "<div class='film_vu list'><strong>Film vu: </strong> " .$array['titre'] . " le " .$array["date"] .'<span value= ' . $array["id_film"] .' class="badge badge-pill badge-primary review review_change"> Add review </span>'. "</div>";
                                 }
                                 echo "</div>";
 
@@ -93,7 +93,7 @@
                                         $resquestAddFile -> execute();
                                     }
                                 ?>
-                                    <button class="btn btn-lg btn-success btn-block text-uppercase review_change" type="submit">ADD</button>
+                                    <button class="btn btn-add btn-lg btn-success btn-block text-uppercase review_change" type="submit">ADD</button>
                                 </form>
                             </div>
                         </div>

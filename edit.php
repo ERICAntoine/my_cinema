@@ -48,6 +48,7 @@
                                         $select = $_POST["select"];
                                         $query2 = $db_connect -> prepare("UPDATE membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso SET id_abo = $select WHERE membre.id_fiche_perso = $id");
                                         $query2 -> execute();
+                                        header('Location: edit.php?id=' . $id);
                                     }
                                 }
                                 
@@ -56,6 +57,7 @@
                                     $check = $_POST["check"];
                                     $query3 = $db_connect -> prepare("UPDATE membre INNER JOIN fiche_personne ON membre.id_fiche_perso = fiche_personne.id_perso SET id_abo = NULL WHERE membre.id_fiche_perso = $id");
                                     $query3 -> execute();
+                                    header('Location: edit.php?id=' . $id);
                                 }
                             ?>
                                 <a href="cinema.php">Search Cinema</a>

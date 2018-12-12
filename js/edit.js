@@ -41,3 +41,7 @@ function selectedAbonnement(select)
 }
 
 selectedAbonnement(selectAbonnement);
+
+/* RELOAD */
+
+//location.reload(); 

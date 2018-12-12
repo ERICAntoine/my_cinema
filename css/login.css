@@ -15,21 +15,14 @@
 {
     width: 40%;
     margin-top: 6em;
-
+    margin: auto;
+    min-width: 600px;
 }
 
 .login_form img
 {
     height: 27px;
     margin-right: 5px;
-}
-
-.page_login
-{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .card-body
@@ -179,4 +172,19 @@ input{
     display: flex;
     justify-content: center;
     font-size: 40px;
+}
+
+.btn-add
+{
+    margin-top: 20px;
+}
+
+.page_login
+{
+    padding: 60px;
+}
+
+.page-item
+{
+    margin: auto;
 }

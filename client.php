@@ -74,15 +74,6 @@
         $lastname = $_GET["lastname"];
         $firstname = $_GET["firstname"];
 
-        if(isset($_GET["page"]))
-        {
-            $page = $_GET["page"];
-        }
-        else
-        {
-            $page = 1;
-        }
-
         if(isset($_GET["lastname"]))
         {
             echo "<div class='all_search row'>";
@@ -103,7 +94,7 @@
             echo "<ul class='pagination pagi'>";
             for($i = 1; $i < $nbrPage; $i++)
             {
-                echo "<li class='page-item'col-sm-4'><a class='page-link' href='client.php?lastname=$lastname&firstname=$firstname&page=$i'>$i</a></li>";
+                echo "<li class='page-item'col-sm-4'><a class='page-link' href='client.php?lastname=$lastname&firstname=$firstname&page=$i&limit=$nbrLimit'>$i</a></li>";
             }
             echo '</ul>';
         }

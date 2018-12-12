@@ -89,15 +89,6 @@
         $distrib = $_GET["distrib"];
         $date_bar = $_GET["date_bar"];
 
-        if(isset($_GET["page"]))
-        {
-            $page = $_GET["page"];
-        }
-        else
-        {
-            $page = 1;
-        }
-
         if(isset($_GET["search_bar"]))
         {
             echo "<div class='all_search row'>";
@@ -117,7 +108,7 @@
             echo "<ul class='pagination pagi'>";
             for($i = 1; $i < $nbrPage + 1; $i++)
             {
-                echo "<li class='page-item'><a class='page-link' href='cinema.php?search_bar=$bar&genre=$genre&distrib=$distrib&date_bar=$date_bar&page=$i'>$i</a></li>";
+                echo "<li class='page-item'><a class='page-link' href='cinema.php?search_bar=$bar&genre=$genre&distrib=$distrib&date_bar=$date_bar&page=$i&limit=$nbrLimit'>$i</a></li>";
             }
             echo '</ul>';
         }
@@ -132,7 +123,7 @@
         $limit = 12;
     }
 
-    if(isset($_GET['genre']) && !empty($_GET['genre']))
+    if(isset($_GET['genre']))
     {
         $genre = $_GET["genre"];
     }
@@ -141,10 +132,24 @@
         $genre = "All";
     }
 
+    if(isset($_GET['distrib']))
+    {
+        $distrib = $_GET["distrib"];
+    }
+    else
+    {
+        $distrib = "All";
+    }
+
     if($genre != "All" && isset($_GET["search_bar"]) && !empty($_GET["search_bar"]))
     {
         $search_bar = $_GET["search_bar"];
-        resquestFetch("SELECT * from film WHERE titre LIKE '%". $search_bar ."%' AND id_genre LIKE '" . $genre . "%'", $limit);
+        resquestFetch("SELECT * from film WHERE titre LIKE '". $search_bar ."%' AND id_genre LIKE '" . $genre . "%'", $limit);
+    }
+    elseif(isset($_GET["search_bar"]) && !empty($_GET['search_bar']) && $distrib != "All")
+    {
+        $search_bar = $_GET["search_bar"];
+        resquestFetch("SELECT * from film WHERE titre LIKE '". $search_bar ."%' AND id_distrib LIKE '" . $distrib . "%'", $limit);
     }
     elseif(isset($_GET["search_bar"]) && !empty($_GET['search_bar']))
     {
@@ -159,9 +164,9 @@
     elseif(isset($_GET["date_bar"]) && !empty($_GET["date_bar"]))
     {
         $date = $_GET["date_bar"];
-        echo resquestFetch("SELECT * FROM film WHERE date_debut_affiche <= '$date' AND date_fin_affiche >= '$date'", $limit);
+        resquestFetch("SELECT * FROM film WHERE date_debut_affiche <= '$date' AND date_fin_affiche >= '$date'", $limit);
     }
-    elseif(isset($_GET["distrib"]) && !empty($_GET["distrib"]))
+    elseif($distrib != "All")
     {
         $distrib = $_GET["distrib"];
         resquestFetch("SELECT * FROM film WHERE id_distrib = '$distrib'", $limit);
