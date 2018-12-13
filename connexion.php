@@ -1,16 +1,21 @@
 <?php
-    session_start();
-    include("fonction/connect.php");
-
-    if(isset($_POST["pseudo"]) && !empty($_POST["pseudo"]) && isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["mdp"]) && !empty($_POST["mdp"]))
-    {
-        $pseudo = $_POST["pseudo"];
-        $email = $_POST["email"];
-        $password = password_hash($_POST["mdp"], PASSWORD_DEFAULT);
-
-        $addUser = $db_connect -> prepare("INSERT INTO users (pseudo, email, password) VALUES ('$pseudo', '$email', '$password')");
-        $addUser -> execute();
-    }
+        session_start();
+        include("fonction/connect.php");
+    
+        if(isset($_POST["pseudo"]) && !empty($_POST["pseudo"]) && isset($_POST["mdp"]) && !empty($_POST["mdp"]))
+        {
+            $pseudo = $_POST["pseudo"];
+            $password = $_POST["mdp"];
+            $addUser = $db_connect -> prepare("SELECT pseudo, password FROM users WHERE pseudo = '$pseudo'");
+            $addUser -> execute();
+            while($pass = $addUser -> fetch(PDO::FETCH_ASSOC))
+            {
+                if(password_verify($password, $pass["password"]))
+                {
+                    header('Location: cinema.php');
+                }
+            }
+        }
 ?>
 
 <html>
@@ -44,11 +49,7 @@
                                                 <input minlength= "4" maxlength="16" type="text" name="pseudo" id="inputEmail" class="form-control" placeholder="Nom d'utilisateur" required>
                                         </div>
                                         <div class="form-label-group">
-                                            <input name = "email" type="email" id="inputEmail" class="form-control" placeholder="Adresse Email" required>
-                                        </div>
-
-                                        <div class="form-label-group">
-                                            <input name="mdp" type="password" id="inputPassword" class="form-control" placeholder="Mot de Passe" minlength="6" maxlength="25" required>
+                                            <input name="mdp" type="password" id="inputPassword" class="form-control" placeholder="Mot de Passe" minlength="4" maxlength="25" required>
                                         </div>
                                         <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
                                     </form>
