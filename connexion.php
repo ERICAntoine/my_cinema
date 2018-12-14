@@ -12,6 +12,7 @@
             {
                 if(password_verify($password, $pass["password"]))
                 {
+                    $_SESSION["pseudo"] = $pseudo;
                     header('Location: cinema.php');
                 }
             }

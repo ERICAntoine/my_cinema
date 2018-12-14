@@ -7,9 +7,20 @@
         $pseudo = $_POST["pseudo"];
         $email = $_POST["email"];
         $password = password_hash($_POST["mdp"], PASSWORD_DEFAULT);
+        $verif = $db_connect -> prepare("SELECT pseudo FROM users WHERE pseudo = '$pseudo' OR email = '$email'");
+        $verif -> execute();
+        $countVerif = $verif -> rowCount();
+        echo $countVerif;
 
-        $addUser = $db_connect -> prepare("INSERT INTO users (pseudo, email, password) VALUES ('$pseudo', '$email', '$password')");
-        $addUser -> execute();
+        if($countVerif != 0)
+        {
+            echo "<div class='error'>Error: Le pseudo ou l'email exist deja</div>";
+        }
+        else
+        {
+            $addUser = $db_connect -> prepare("INSERT INTO users (pseudo, email, password) VALUES ('$pseudo', '$email', '$password')");
+            $addUser -> execute();
+        }
     }
 ?>
 

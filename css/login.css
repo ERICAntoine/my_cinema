@@ -188,3 +188,43 @@ input{
 {
     margin: auto;
 }
+
+header img
+{
+    height: 27px;
+    margin-right: 5px;
+}
+
+header
+{
+    background: #fff;
+}
+
+header ul 
+{
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header li
+{
+    margin-right: 10px;
+}
+
+header .container
+{
+    padding: 10px 0px 10px;
+}
+
+.picto
+{
+    float: right;
+}
+
+header a
+{
+    color: #000;
+}
